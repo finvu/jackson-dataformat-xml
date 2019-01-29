@@ -1,11 +1,10 @@
 package com.fasterxml.jackson.dataformat.xml;
 
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLOutputFactory;
-
 import com.fasterxml.jackson.core.base.DecorableTSFactory.DecorableTSFBuilder;
 import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLInputFactory;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLOutputFactory;
 
 /**
  * {@link com.fasterxml.jackson.core.TokenStreamFactory.TSFBuilder}

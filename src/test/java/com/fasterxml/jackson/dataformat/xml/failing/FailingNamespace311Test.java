@@ -1,14 +1,16 @@
 package com.fasterxml.jackson.dataformat.xml.failing;
 
-import javax.xml.stream.*;
-
-import com.ctc.wstx.stax.WstxInputFactory;
-import com.ctc.wstx.stax.WstxOutputFactory;
-import com.fasterxml.jackson.databind.*;
-
-import com.fasterxml.jackson.dataformat.xml.*;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlFactory;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlTestBase;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLOutputFactory;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamException;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamWriter;
+import com.fasterxml.jackson.dataformat.xml.stax.impl.DefaultXMLInputFactory;
+import com.fasterxml.jackson.dataformat.xml.stax.impl.DefaultXMLOutputFactory;
 
 // for [dataformat-xml#311]
 public class FailingNamespace311Test extends XmlTestBase
@@ -47,14 +49,14 @@ public class FailingNamespace311Test extends XmlTestBase
     }
 
     public void testIssue311() throws Exception {
-        XMLOutputFactory xmlOutputFactory = new WstxOutputFactory();
+        XMLOutputFactory xmlOutputFactory = DefaultXMLOutputFactory.newInstance();
         
         /* Setting this to true makes the application run but does not write namespace */
         xmlOutputFactory.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, false);
         
         XmlMapper mapper = XmlMapper.builder(
                 XmlFactory.builder()
-                    .inputFactory(new WstxInputFactory())
+                    .inputFactory(DefaultXMLInputFactory.newInstance())
                     .outputFactory(xmlOutputFactory)
                     .build()
                     )

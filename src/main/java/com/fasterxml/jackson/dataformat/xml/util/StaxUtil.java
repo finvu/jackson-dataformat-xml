@@ -2,12 +2,11 @@ package com.fasterxml.jackson.dataformat.xml.util;
 
 import java.io.IOException;
 
-import javax.xml.stream.*;
-
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamException;
 
 public class StaxUtil
 {
@@ -31,6 +30,16 @@ public class StaxUtil
      * @since 2.9
      */
     public static <T> T throwAsParseException(XMLStreamException e,
+            JsonParser p) throws IOException
+    {
+        Throwable t = _unwrap(e);
+        throw new JsonParseException(p, _message(t, e), t);
+    }
+    
+    /**
+     * @since 2.9
+     */
+    public static <T> T throwAsParseException(Exception e,
             JsonParser p) throws IOException
     {
         Throwable t = _unwrap(e);

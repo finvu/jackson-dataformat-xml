@@ -3,11 +3,10 @@ package com.fasterxml.jackson.dataformat.xml.ser;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
-import javax.xml.namespace.QName;
-
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlTestBase;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.fasterxml.jackson.dataformat.xml.stax.QName;
 
 // Temporarily failing with Jackson 3.x until there are methods for
 // constructing "fully-configured and linked" generators

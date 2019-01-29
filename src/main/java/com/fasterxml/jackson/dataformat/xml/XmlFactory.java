@@ -2,17 +2,18 @@ package com.fasterxml.jackson.dataformat.xml;
 
 import java.io.*;
 
-import javax.xml.stream.*;
-
-import org.codehaus.stax2.io.Stax2ByteArraySource;
-import org.codehaus.stax2.io.Stax2CharArraySource;
-
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.core.base.TextualTSFactory;
 import com.fasterxml.jackson.core.io.IOContext;
 import com.fasterxml.jackson.core.json.JsonFactoryBuilder;
 import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLInputFactory;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLOutputFactory;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamConstants;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamException;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamReader;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamWriter;
 import com.fasterxml.jackson.dataformat.xml.util.StaxUtil;
 
 /**
@@ -502,7 +503,7 @@ public class XmlFactory
         //    is always same as if 'false' was passed
         XMLStreamReader sr;
         try {
-            sr = _xmlInputFactory.createXMLStreamReader(new Stax2CharArraySource(data, offset, len));
+            sr = _xmlInputFactory.createXMLStreamReader(new CharArrayReader(data, offset, len));
         } catch (XMLStreamException e) {
             return StaxUtil.throwAsParseException(e, null);
         }
@@ -523,7 +524,7 @@ public class XmlFactory
     {
         XMLStreamReader sr;
         try {
-            sr = _xmlInputFactory.createXMLStreamReader(new Stax2ByteArraySource(data, offset, len));
+            sr = _xmlInputFactory.createXMLStreamReader(new ByteArrayInputStream(data, offset, len));
         } catch (XMLStreamException e) {
             return StaxUtil.throwAsParseException(e, null);
         }
@@ -585,7 +586,7 @@ public class XmlFactory
             while (sr.next() != XMLStreamConstants.START_ELEMENT) {
                 ;
             }
-        } catch (XMLStreamException e) {
+        } catch (Exception e) {
             return StaxUtil.throwAsParseException(e, null);
         }
         return sr;

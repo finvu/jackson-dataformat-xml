@@ -3,9 +3,6 @@ package com.fasterxml.jackson.dataformat.xml;
 import java.io.Closeable;
 import java.io.IOException;
 
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
-
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.Nulls;
@@ -22,6 +19,8 @@ import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.fasterxml.jackson.dataformat.xml.ser.XmlSerializationContexts;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamReader;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamWriter;
 import com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter;
 
 /**

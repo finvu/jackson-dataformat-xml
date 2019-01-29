@@ -6,17 +6,13 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Set;
 
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
-
-import org.codehaus.stax2.XMLStreamReader2;
-
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.core.base.ParserMinimalBase;
 import com.fasterxml.jackson.core.io.IOContext;
 import com.fasterxml.jackson.core.util.ByteArrayBuilder;
 import com.fasterxml.jackson.dataformat.xml.PackageVersion;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamException;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamReader;
 import com.fasterxml.jackson.dataformat.xml.util.StaxUtil;
 
 /**
@@ -197,7 +193,7 @@ public class FromXmlParser
     }
 
     @Override // since 3.0
-    public XMLStreamReader2 getInputSource() {
+    public XMLStreamReader getInputSource() {
         return _xmlTokens.getXmlReader();
     }
 
@@ -484,7 +480,7 @@ public class FromXmlParser
         int token;
         try {
             token = _xmlTokens.next();
-        } catch (XMLStreamException e) {
+        } catch (Exception e) {
             token = StaxUtil.throwAsParseException(e, this);
         }
         // Need to have a loop just because we may have to eat/convert
@@ -502,7 +498,7 @@ public class FromXmlParser
                 // reported anyway, and we need to process following event.
                 try {
                     token = _xmlTokens.next();
-                } catch (XMLStreamException e) {
+                } catch (Exception e) {
                     StaxUtil.throwAsParseException(e, this);
                 }
                 _mayBeLeaf = true;
@@ -568,7 +564,7 @@ public class FromXmlParser
                     // Also: must skip following END_ELEMENT
                     try {
                         _xmlTokens.skipEndElement();
-                    } catch (XMLStreamException e) {
+                    } catch (Exception e) {
                         StaxUtil.throwAsParseException(e, this);
                     }
                     if (_parsingContext.inArray()) {
@@ -590,7 +586,7 @@ public class FromXmlParser
                         if ((_currToken != JsonToken.FIELD_NAME) && _isEmpty(_currText)) {
                             try {
                                 token = _xmlTokens.next();
-                            } catch (XMLStreamException e) {
+                            } catch (Exception e) {
                                 StaxUtil.throwAsParseException(e, this);
                             }
                             continue;
@@ -638,7 +634,7 @@ public class FromXmlParser
 
         try {
             token = _xmlTokens.next();
-        } catch (XMLStreamException e) {
+        } catch (Exception e) {
             token = StaxUtil.throwAsParseException(e, this);
         }
 
@@ -653,7 +649,7 @@ public class FromXmlParser
             if (_parsingContext.inArray()) {
                 try {
                     token = _xmlTokens.next();
-                } catch (XMLStreamException e) {
+                } catch (Exception e) {
                     StaxUtil.throwAsParseException(e, this);
                 }
                 _mayBeLeaf = true;
@@ -705,7 +701,7 @@ public class FromXmlParser
                 // Also: must skip following END_ELEMENT
                 try {
                     _xmlTokens.skipEndElement();
-                } catch (XMLStreamException e) {
+                } catch (Exception e) {
                     StaxUtil.throwAsParseException(e, this);
                 }
                 // NOTE: this is different from nextToken() -- NO work-around
@@ -808,7 +804,7 @@ public class FromXmlParser
                     }
                     return (_currText = str);
                 }
-            } catch (XMLStreamException e) {
+            } catch (Exception e) {
                 StaxUtil.throwAsParseException(e, this);
             }
             return null;

@@ -2,11 +2,10 @@ package com.fasterxml.jackson.dataformat.xml.stream;
 
 import java.io.*;
 
-import javax.xml.namespace.QName;
-
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlTestBase;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.fasterxml.jackson.dataformat.xml.stax.QName;
 
 public class XmlGeneratorTest extends XmlTestBase
 {
