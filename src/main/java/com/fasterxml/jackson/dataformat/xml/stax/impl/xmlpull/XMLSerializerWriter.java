@@ -35,7 +35,7 @@ public class XMLSerializerWriter implements XMLStreamWriter {
 	public void writeStartElement(String namespaceURI, String localName) throws XMLStreamException {
 		try {
 			// we need the details when closing the tag.
-			_elementStack.push(new QName(namespaceURI, localName, null));
+			_elementStack.push(new QName(namespaceURI, localName, ""));
 			_xmlWriter.startTag(namespaceURI, localName);
 		}catch(IOException ioe) {
 			throw new XMLStreamException(ioe);
