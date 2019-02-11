@@ -8,7 +8,7 @@ Currently supported only on 2.9.6 version. Checkout branch jackson-dataformat-xm
 
 3x version not supported as it uses java 1.8 features that are not available in Android.
 
-You need to manually download and place dependent jars (see below gradle sample for files required under lib folder)
+You need to manually download and place dependent jars (see below gradle sample for dependent jars required in lib folder)
 
 Your app.gradle should look like the following:
 
