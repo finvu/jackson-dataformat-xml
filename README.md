@@ -4,7 +4,7 @@ This project is a fork of the fasterXML's jackson-dataformat-xml project. This a
 
 By adding this support, it is possible to use this library in Android.
 
-Currently supported only on 2.9.6 version. Checkout branch jackson-dataformat-xml-2.9.6-XmlPull.
+Currently supported only on 2.9.6 version. Checkout branch jackson-dataformat-xml-2.9.6-XmlPull and build the jar.
 
 3x version not supported as it uses java 1.8 features that are not available in Android.
 
