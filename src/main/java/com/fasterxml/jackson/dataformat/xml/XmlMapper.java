@@ -2,17 +2,16 @@ package com.fasterxml.jackson.dataformat.xml;
 
 import java.io.IOException;
 
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
-
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.fasterxml.jackson.dataformat.xml.ser.XmlSerializerProvider;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLInputFactory;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLOutputFactory;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamReader;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamWriter;
 import com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter;
 import com.fasterxml.jackson.dataformat.xml.util.XmlRootNameLookup;
 

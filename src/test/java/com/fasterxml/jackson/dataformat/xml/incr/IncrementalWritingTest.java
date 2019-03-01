@@ -2,10 +2,9 @@ package com.fasterxml.jackson.dataformat.xml.incr;
 
 import java.io.*;
 
-import javax.xml.stream.XMLStreamWriter;
-
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlTestBase;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamWriter;
 
 public class IncrementalWritingTest extends XmlTestBase
 {

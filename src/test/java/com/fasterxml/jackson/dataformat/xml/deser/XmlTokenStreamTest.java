@@ -2,11 +2,11 @@ package com.fasterxml.jackson.dataformat.xml.deser;
 
 import java.io.*;
 
-import javax.xml.stream.*;
-
 import com.fasterxml.jackson.dataformat.xml.XmlTestBase;
 import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser;
 import com.fasterxml.jackson.dataformat.xml.deser.XmlTokenStream;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLInputFactory;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamReader;
 
 public class XmlTokenStreamTest extends XmlTestBase
 {

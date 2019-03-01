@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.BitSet;
 import java.util.Set;
 
-import javax.xml.namespace.QName;
-
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -17,6 +15,7 @@ import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter;
 import com.fasterxml.jackson.databind.ser.impl.WritableObjectId;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 import com.fasterxml.jackson.databind.util.NameTransformer;
+import com.fasterxml.jackson.dataformat.xml.stax.QName;
 import com.fasterxml.jackson.dataformat.xml.util.XmlInfo;
 
 /**

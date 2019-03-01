@@ -5,15 +5,13 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 
-import javax.xml.stream.XMLStreamException;
-
-import org.codehaus.stax2.XMLStreamWriter2;
-
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.core.util.Instantiatable;
 
 import com.fasterxml.jackson.dataformat.xml.XmlPrettyPrinter;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamException;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamWriter;
 
 /**
  * Indentation to use with XML is different from JSON, because JSON
@@ -39,7 +37,7 @@ public class DefaultXmlPrettyPrinter
     {
         public void writeIndentation(JsonGenerator g, int level) throws IOException;
 
-        public void writeIndentation(XMLStreamWriter2 sw, int level) throws XMLStreamException;
+        public void writeIndentation(XMLStreamWriter sw, int level) throws XMLStreamException;
 
         /**
          * @return True if indenter is considered inline (does not add linefeeds),
@@ -232,7 +230,7 @@ public class DefaultXmlPrettyPrinter
      */
 
     @Override
-    public void writeStartElement(XMLStreamWriter2 sw,
+    public void writeStartElement(XMLStreamWriter sw,
             String nsURI, String localName) throws XMLStreamException
     {
         if (!_objectIndenter.isInline()) {
@@ -247,7 +245,7 @@ public class DefaultXmlPrettyPrinter
     }
 
     @Override
-    public void writeEndElement(XMLStreamWriter2 sw, int nrOfEntries) throws XMLStreamException
+    public void writeEndElement(XMLStreamWriter sw, int nrOfEntries) throws XMLStreamException
     {
         if (!_objectIndenter.isInline()) {
             --_nesting;
@@ -262,7 +260,7 @@ public class DefaultXmlPrettyPrinter
     }
     
     @Override
-    public void writeLeafElement(XMLStreamWriter2 sw,
+    public void writeLeafElement(XMLStreamWriter sw,
     		String nsURI, String localName, String text, boolean isCData)
   		throws XMLStreamException
     {
@@ -280,7 +278,7 @@ public class DefaultXmlPrettyPrinter
     }
 
     @Override
-    public void writeLeafElement(XMLStreamWriter2 sw,
+    public void writeLeafElement(XMLStreamWriter sw,
     		String nsURI, String localName,
     		char[] buffer, int offset, int len, boolean isCData)
         throws XMLStreamException
@@ -299,7 +297,7 @@ public class DefaultXmlPrettyPrinter
     }
 	
     @Override
-    public void writeLeafElement(XMLStreamWriter2 sw,
+    public void writeLeafElement(XMLStreamWriter sw,
     		String nsURI, String localName, boolean value)
   		throws XMLStreamException
     {
@@ -313,7 +311,7 @@ public class DefaultXmlPrettyPrinter
     }
     
     @Override
-    public void writeLeafElement(XMLStreamWriter2 sw,
+    public void writeLeafElement(XMLStreamWriter sw,
             String nsURI, String localName, int value)
         throws XMLStreamException
     {
@@ -327,7 +325,7 @@ public class DefaultXmlPrettyPrinter
     }
 
     @Override
-    public void writeLeafElement(XMLStreamWriter2 sw,
+    public void writeLeafElement(XMLStreamWriter sw,
             String nsURI, String localName, long value)
         throws XMLStreamException
     {
@@ -341,7 +339,7 @@ public class DefaultXmlPrettyPrinter
     }
 
     @Override
-    public void writeLeafElement(XMLStreamWriter2 sw,
+    public void writeLeafElement(XMLStreamWriter sw,
             String nsURI, String localName, double value)
   		throws XMLStreamException
     {
@@ -355,7 +353,7 @@ public class DefaultXmlPrettyPrinter
     }
 
     @Override
-    public void writeLeafElement(XMLStreamWriter2 sw,
+    public void writeLeafElement(XMLStreamWriter sw,
     		String nsURI, String localName, float value)
   		throws XMLStreamException
     {
@@ -369,7 +367,7 @@ public class DefaultXmlPrettyPrinter
     }
 	
     @Override
-    public void writeLeafElement(XMLStreamWriter2 sw,
+    public void writeLeafElement(XMLStreamWriter sw,
             String nsURI, String localName, BigInteger value)
         throws XMLStreamException
     {
@@ -383,7 +381,7 @@ public class DefaultXmlPrettyPrinter
     }
 
     @Override
-    public void writeLeafElement(XMLStreamWriter2 sw,
+    public void writeLeafElement(XMLStreamWriter sw,
     		String nsURI, String localName, BigDecimal value)
   		throws XMLStreamException
     {
@@ -397,7 +395,7 @@ public class DefaultXmlPrettyPrinter
     }
 
     @Override
-    public void writeLeafElement(XMLStreamWriter2 sw,
+    public void writeLeafElement(XMLStreamWriter sw,
     		String nsURI, String localName,
     		byte[] data, int offset, int len)
         throws XMLStreamException
@@ -412,7 +410,7 @@ public class DefaultXmlPrettyPrinter
     }
 
     @Override
-    public void writeLeafNullElement(XMLStreamWriter2 sw,
+    public void writeLeafNullElement(XMLStreamWriter sw,
     		String nsURI, String localName)
         throws XMLStreamException
     {
@@ -424,7 +422,7 @@ public class DefaultXmlPrettyPrinter
     }
 
     @Override // since 2.7
-    public void writePrologLinefeed(XMLStreamWriter2 sw) throws XMLStreamException
+    public void writePrologLinefeed(XMLStreamWriter sw) throws XMLStreamException
     {
         // 06-Dec-2015, tatu: Alternatively could try calling `writeSpace()`...
         sw.writeRaw(Lf2SpacesIndenter.SYSTEM_LINE_SEPARATOR);
@@ -449,7 +447,7 @@ public class DefaultXmlPrettyPrinter
         public NopIndenter() { }
         @Override public void writeIndentation(JsonGenerator jg, int level) { }
         @Override public boolean isInline() { return true; }
-        @Override public void writeIndentation(XMLStreamWriter2 sw, int level) { }
+        @Override public void writeIndentation(XMLStreamWriter sw, int level) { }
     }
 
     /**
@@ -465,7 +463,7 @@ public class DefaultXmlPrettyPrinter
         public FixedSpaceIndenter() { }
 
         @Override
-        public void writeIndentation(XMLStreamWriter2 sw, int level)
+        public void writeIndentation(XMLStreamWriter sw, int level)
             throws XMLStreamException
         {
             sw.writeRaw(" ");
@@ -511,7 +509,7 @@ public class DefaultXmlPrettyPrinter
         public boolean isInline() { return false; }
 
         @Override
-        public void writeIndentation(XMLStreamWriter2 sw, int level) throws XMLStreamException
+        public void writeIndentation(XMLStreamWriter sw, int level) throws XMLStreamException
         {
             sw.writeRaw(SYSTEM_LINE_SEPARATOR);
             level += level; // 2 spaces per level

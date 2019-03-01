@@ -1,13 +1,12 @@
 package com.fasterxml.jackson.dataformat.xml.deser;
 
 import java.io.IOException;
-import javax.xml.stream.*;
-
-import org.codehaus.stax2.XMLStreamLocation2;
-import org.codehaus.stax2.XMLStreamReader2;
-import org.codehaus.stax2.ri.Stax2ReaderAdapter;
 
 import com.fasterxml.jackson.core.JsonLocation;
+import com.fasterxml.jackson.dataformat.xml.stax.Location;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamConstants;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamException;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamReader;
 
 /**
  * Simple helper class used on top of STAX {@link XMLStreamReader} to further
@@ -39,7 +38,7 @@ public class XmlTokenStream
     /**********************************************************************
      */
 
-    final protected XMLStreamReader2 _xmlReader;
+    final protected XMLStreamReader _xmlReader;
 
     final protected Object _sourceReference;
 
@@ -119,7 +118,7 @@ public class XmlTokenStream
             throw new IllegalArgumentException("Invalid XMLStreamReader passed: should be pointing to START_ELEMENT ("
                     +XMLStreamConstants.START_ELEMENT+"), instead got "+xmlReader.getEventType());
         }
-        _xmlReader = Stax2ReaderAdapter.wrapIfNecessary(xmlReader);
+        _xmlReader = xmlReader;
         _currentState = XML_START_ELEMENT;
         _localName = _xmlReader.getLocalName();
         _namespaceURI = _xmlReader.getNamespaceURI();
@@ -127,7 +126,7 @@ public class XmlTokenStream
         _formatFeatures = formatFeatures;
     }
 
-    public XMLStreamReader2 getXmlReader() {
+    public XMLStreamReader getXmlReader() {
         return _xmlReader;
     }
 
@@ -175,7 +174,7 @@ public class XmlTokenStream
     }
     */
 
-    public int next() throws XMLStreamException 
+    public int next() throws Exception
     {
         if (_repeatElement != 0) {
             return (_currentState = _handleRepeatElement());
@@ -183,7 +182,7 @@ public class XmlTokenStream
         return _next();
     }
 
-    public void skipEndElement() throws IOException, XMLStreamException
+    public void skipEndElement() throws IOException, Exception
     {
         int type = next();
         if (type != XML_END_ELEMENT) {
@@ -209,11 +208,11 @@ public class XmlTokenStream
     }
 
     public JsonLocation getCurrentLocation() {
-        return _extractLocation(_xmlReader.getLocationInfo().getCurrentLocation());
+        return _extractLocation(_xmlReader);
     }
 
     public JsonLocation getTokenLocation() {
-        return _extractLocation(_xmlReader.getLocationInfo().getStartLocation());
+        return _extractLocation(_xmlReader);
     }
 
     /*
@@ -270,7 +269,7 @@ public class XmlTokenStream
         }
     }
 
-    protected String convertToString() throws XMLStreamException
+    protected String convertToString() throws Exception
     {
         // only applicable to cases where START_OBJECT was induced by attributes
         if (_currentState != XML_ATTRIBUTE_NAME || _nextAttributeIndex != 0) {
@@ -304,7 +303,7 @@ public class XmlTokenStream
     /**********************************************************************
      */
 
-    private final int _next() throws XMLStreamException
+    private final int _next() throws Exception
     {
         switch (_currentState) {
         case XML_ATTRIBUTE_VALUE:
@@ -366,7 +365,7 @@ public class XmlTokenStream
         return _initStartElement();
     }
 
-    private final String _collectUntilTag() throws XMLStreamException
+    private final String _collectUntilTag() throws Exception
     {
         // 21-Jun-2017, tatu: Whether exposed as `null` or "" is now configurable...
         if (_xmlReader.isEmptyElement()) {
@@ -418,7 +417,7 @@ public class XmlTokenStream
         }
     }
 
-    private final int _skipUntilTag() throws XMLStreamException
+    private final int _skipUntilTag() throws Exception
     {
         while (_xmlReader.hasNext()) {
             int type;
@@ -434,7 +433,7 @@ public class XmlTokenStream
         throw new IllegalStateException("Expected to find a tag, instead reached end of input");
     }
 
-    private final String _getText(XMLStreamReader2 r) throws XMLStreamException
+    private final String _getText(XMLStreamReader r) throws XMLStreamException
     {
         try {
             return r.getText();
@@ -543,8 +542,10 @@ public class XmlTokenStream
         return (_currentState = XML_END_ELEMENT);
     }
     
-    private JsonLocation _extractLocation(XMLStreamLocation2 location)
+    private JsonLocation _extractLocation(XMLStreamReader xmlReader)
     {
+    	Location location = xmlReader.getLocation();
+    	
         if (location == null) { // just for impls that might pass null...
             return new JsonLocation(_sourceReference, -1, -1, -1);
         }

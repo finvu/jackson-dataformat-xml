@@ -5,18 +5,15 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
-
-import org.codehaus.stax2.XMLStreamWriter2;
-import org.codehaus.stax2.ri.Stax2WriterAdapter;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamException;
 
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.core.base.GeneratorBase;
 import com.fasterxml.jackson.core.io.IOContext;
 import com.fasterxml.jackson.core.json.JsonWriteContext;
 import com.fasterxml.jackson.dataformat.xml.XmlPrettyPrinter;
+import com.fasterxml.jackson.dataformat.xml.stax.QName;
+import com.fasterxml.jackson.dataformat.xml.stax.XMLStreamWriter;
 import com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter;
 import com.fasterxml.jackson.dataformat.xml.util.StaxUtil;
 
@@ -93,7 +90,7 @@ public final class ToXmlGenerator
     /**********************************************************
      */
 
-    final protected XMLStreamWriter2 _xmlWriter;
+    final protected XMLStreamWriter _xmlWriter;
 
     final protected XMLStreamWriter _originalXmlWriter;
     
@@ -176,7 +173,7 @@ public final class ToXmlGenerator
         _formatFeatures = xmlFeatures;
         _ioContext = ctxt;
         _originalXmlWriter = sw;
-        _xmlWriter = Stax2WriterAdapter.wrapIfNecessary(sw);
+        _xmlWriter = sw;
         _stax2Emulation = (_xmlWriter != sw);
         _xmlPrettyPrinter = (_cfgPrettyPrinter instanceof XmlPrettyPrinter) ?
         		(XmlPrettyPrinter) _cfgPrettyPrinter : null;

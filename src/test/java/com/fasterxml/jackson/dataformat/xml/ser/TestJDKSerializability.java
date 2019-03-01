@@ -2,14 +2,13 @@ package com.fasterxml.jackson.dataformat.xml.ser;
 
 import java.io.*;
 
-import javax.xml.namespace.QName;
-
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlTestBase;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.fasterxml.jackson.dataformat.xml.stax.QName;
 
 /**
  * Unit test related to core [Issue#31] (https://github.com/FasterXML/jackson-core/issues/31)
