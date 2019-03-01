@@ -12,6 +12,14 @@ Checkout branch jackson-dataformat-xml-2.9.6-XmlPull and build the jar.
 
 You need to manually download and place dependent jars (see below gradle sample for dependent jars required in lib folder). Dependent jars can be downloaded from maven central.
 
+# Usage
+
+To use XmlPullParser instead of the java stax parser, instantiate the XmlMapper as follows:
+
+```java
+XmlMapper mapper = new XmlMapper(new XmlPullFactory());
+```
+
 Your app.gradle should look like the following:
 
 ```gradle
